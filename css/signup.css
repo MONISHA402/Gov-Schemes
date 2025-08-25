@@ -1,0 +1,347 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: #f4f6f8;
+}
+
+.top-navbar {
+  background-color: #005f94;
+  padding: 0.5rem 2rem;
+  color: white;
+}
+
+.top-navbar-content {
+  display: flex;
+  justify-content: flex-end; /* This moves the right content to the end */
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-right {
+  display: flex;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.navbar-right a {
+  text-decoration: none;
+  color: white;
+}
+    
+.top-nav {
+    background-color: #39a0ff;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.navbar-left{
+    color: white;
+}
+.top-nav  .nav-links a {
+    color: #fff;
+    margin-right: 2rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 10px;
+    
+}
+
+.contact-link  {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1); /* makes black icon white */
+}
+.nav-links  .active{
+  
+  font-weight: bold;
+  border-bottom: 3px solid #fff;
+}
+.nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* spacing between icons */
+}
+
+.nav-icons img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* turns icon white */
+  cursor: pointer;
+}
+
+.nav-icons .profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  filter: none; /* don't apply white filter to profile image */
+}
+
+.bell-icon {
+  position: relative;
+  display: inline-block;
+}
+
+.bell-icon sup {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 2px 5px;
+}
+/* form */
+.signup-container {
+  display: flex;
+  justify-content: center;         /* Centers horizontally */
+  align-items: center;             /* Optional: centers vertically */
+  margin: 40px auto;               /* Adds vertical spacing */
+  max-width: 1000px;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-wrap: wrap;   
+}
+
+.signup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.signup-image {
+  flex: 1;
+  min-width: 45%;
+  left:250px;
+}
+
+.signup-form {
+  flex: 1;
+  padding: 40px 30px;
+
+}
+
+.signup-form h2 {
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.login-link {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-link a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.name-fields {
+  display: flex;
+  gap: 10px;
+}
+
+.name-fields input {
+  flex: 1;
+}
+
+.signup-form input[type="text"],
+.signup-form input[type="email"],
+.signup-form input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field i {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  cursor: pointer;
+}
+
+.terms {
+  font-size: 14px;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.terms input {
+  margin-right: 8px;
+}
+
+.terms a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #1e73e8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.divider {
+  text-align: center;
+  margin: 20px 0;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.social-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.social-btn i {
+  font-size: 16px;
+}
+
+.social-btn.fb {
+  color: #000;
+}
+
+.social-btn.google {
+  color: #000;
+}
+
+.social-btn.apple {
+  color: #000;
+}
+  /*Footer  */
+    footer {
+    background-color: #1e293b;
+    padding: 40px 20px 20px;
+    color: #9ca3af;
+  }
+  .footer-container {
+    width: 1450px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .footer-column {
+    flex: 1 1 220px;
+  }
+  .footer-column h4 {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .footer-column p {
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .social-icons a {
+    margin-right: 12px;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s;
+  }
+  .social-icons a:hover {
+    color: #3b82f6; /* blue on hover */
+  }
+  .footer-links,
+  .resources-links,
+  .contact-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-links li,
+  .resources-links li,
+  .contact-links li {
+    margin-bottom: 10px;
+  }
+  .footer-links a,
+  .resources-links a,
+  .contact-links a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover,
+  .resources-links a:hover,
+  .contact-links a:hover {
+    color: #3b82f6;
+  }
+  .contact-links li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .contact-links li svg {
+    fill: #9ca3af;
+    min-width: 18px;
+    min-height: 18px;
+  }
+  .footer-bottom {
+    margin-top: 40px;
+    border-top: 1px solid #374151;
+    padding-top: 20px;
+    font-size: 14px;
+    text-align: center;
+    color: #6b7280;
+  }
+  .footer-bottom a {
+    color: #6b7280;
+    margin: 0 8px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .footer-bottom a:hover {
+    color: #3b82f6;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+    }
+    .footer-column {
+      flex: 1 1 100%;
+    }
+  }

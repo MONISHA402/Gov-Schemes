@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scheme Grid with Pagination</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <style>
+        * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: white;
+    }
+
+    .top-navbar {
+      background-color: #005f94;
+      padding: 0.5rem 2rem;
+      color: white;
+    }
+
+    .top-navbar-content {
+      display: flex;
+      justify-content: flex-end; /* This moves the right content to the end */
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .navbar-right {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .navbar-right a {
+      text-decoration: none;
+      color: white;
+    }
+        
+    .top-nav {
+      background-color: #39a0ff;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .navbar-left{
+      color: white;
+    }
+    .top-nav  .nav-links a {
+      color: #fff;
+      margin-right: 2rem;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px;
+        
+    }
+
+    .contact-link  {
+      width: 20px;
+      height: 20px;
+      filter: brightness(0) invert(1); /* makes black icon white */
+    }
+    .nav-links  .active{
+      
+      font-weight: bold;
+      border-bottom: 3px solid #fff;
+    }
+    .nav-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px; /* spacing between icons */
+    }
+
+    .nav-icons img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1); /* turns icon white */
+      cursor: pointer;
+    }
+
+    .nav-icons .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      filter: none; /* don't apply white filter to profile image */
+    }
+
+    .bell-icon {
+      position: relative;
+      display: inline-block;
+    }
+
+    .bell-icon sup {
+      position: absolute;
+      top: -6px;
+      right: -6px;
+      background-color: red;
+      color: white;
+      border-radius: 50%;
+      font-size: 10px;
+      padding: 2px 5px;
+    }
+
+    /* search section */
+    .search-section {
+      margin-bottom: 110px;
+      background-color: white;
+      padding: 1.5rem 2rem;
+      width: 100%;
+      max-width: 1650px;
+      border-radius: 8px;
+      display: flex;
+      gap: 1rem;
+      border-bottom: 2px solid #ccc;
+      align-items: center;
+      justify-content: center;
+    }
+    .search-section input{
+      border: none;
+      padding: 0.75rem;
+      font-size: 1rem;
+      width:1000px;
+      border-radius: 5px;
+      flex: 1;
+    }
+
+    .search-section select {
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      flex: 1;
+      width:150px;
+    }
+
+    .group{
+      border: 1px solid #ccc;
+      display: flex;
+    }
+    .search-icon{
+      width:25px;
+      color: #ccc;
+
+    }
+    .search-section button {
+      background-color: #2563eb;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    /* grid */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .scheme-card {
+      background-color: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .scheme-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tag-category {
+      background-color: #e0e7ff;
+      color: #3b82f6;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .tag-status {
+      background-color: #d1fae5;
+      color: #059669;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .last-updated {
+      margin-left: auto;
+      color: #666;
+    }
+
+    .card-title {
+      font-weight: 600;
+      color: #2563eb;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card-desc {
+      font-size: 0.88rem;
+      color: #444;
+      margin-bottom: 0.6rem;
+    }
+
+    .eligibility {
+      font-size: 0.82rem;
+      color: #333;
+    }
+
+    .view-link {
+      color: #2563eb;
+      font-weight: 500;
+      font-size: 0.82rem;
+      text-decoration: none;
+      float: right;
+      margin-top: 0.5rem;
+    }
+
+    .pagination {
+      text-align: center;
+    }
+
+    .pagination button {
+      background-color: #e5e7eb;
+      border: none;
+      border-radius: 5px;
+      padding: 6px 12px;
+      margin: 0 4px;
+      font-weight: 500;
+      color: #111827;
+      cursor: pointer;
+    }
+
+    .pagination button.active {
+      background-color: #2563eb;
+      color: #fff;
+    }
+
+    .pagination button:hover {
+      background-color: #2563eb;
+      color: #fff;
+    }
+    /*Footer  */
+    footer {
+    background-color: #1e293b;
+    padding: 40px 20px 20px;
+    color: #9ca3af;
+  }
+  .footer-container {
+    width: 1450px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .footer-column {
+    flex: 1 1 220px;
+  }
+  .footer-column h4 {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .footer-column p {
+    font-weight: 400;
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .social-icons a {
+    margin-right: 12px;
+    color: #9ca3af;
+    text-decoration: none;
+    font-size: 20px;
+    transition: color 0.3s;
+  }
+  .social-icons a:hover {
+    color: #3b82f6; /* blue on hover */
+  }
+  .footer-links,
+  .resources-links,
+  .contact-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-links li,
+  .resources-links li,
+  .contact-links li {
+    margin-bottom: 10px;
+  }
+  .footer-links a,
+  .resources-links a,
+  .contact-links a {
+    color: #9ca3af;
+    text-decoration: none;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+  .footer-links a:hover,
+  .resources-links a:hover,
+  .contact-links a:hover {
+    color: #3b82f6;
+  }
+  .contact-links li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  .contact-links li svg {
+    fill: #9ca3af;
+    min-width: 18px;
+    min-height: 18px;
+  }
+  .footer-bottom {
+    margin-top: 40px;
+    border-top: 1px solid #374151;
+    padding-top: 20px;
+    font-size: 14px;
+    text-align: center;
+    color: #6b7280;
+  }
+  .footer-bottom a {
+    color: #6b7280;
+    margin: 0 8px;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .footer-bottom a:hover {
+    color: #3b82f6;
+  }
+
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+    }
+    .footer-column {
+      flex: 1 1 100%;
+    }
+  }
+
+  </style>
+</head>
+<body>
+    <!-- Top Navbar -->
+<div class="top-navbar">
+  <div class="top-navbar-content">
+    <div class="navbar-right" style="filter: brightness(0) invert(1) ; color: #2094f3;">
+      <span>🌐 English</span>
+      <span>♿ Accessibility</span>
+      <a href="contact.html"><span><img src="image/message.png" class="contact-link" style="width: 20px;height: 20px;"> Contact Us</span></a>
+    </div>
+  </div>
+</div>
+
+  <!-- Second Navbar -->
+<div class="top-nav">
+  <div class="navbar-left">
+    <h1><img src="image/bank.png" style="width: 40px; height: 30px;padding-right: 10px; filter: brightness(0)invert(1);">Gov Schemes Portal<br><small>Ministry of Citizen Welfare</small></h1>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class=" active">Home</a>
+    <a href="scheme.html">Schemes</a>
+    <a href="regapp.html">Register Application</a>
+  </div>
+  <div class="nav-icons">
+  <img src="image/search.png" alt="Search">
+  <img src="image/calendar.png" alt="Calendar">
+  <div class="bell-icon">
+    <img src="image/bell.png" alt="Notifications">
+    <sup>3</sup>
+  </div>
+    <a href="reg.html" style="padding:15px;border-radius: 15px; color:#2094f3;background-color: white; font-weight:600; border: 2px solid;text-decoration:none;">Register</a>
+  </div>
+</div>
+
+<!-- Search Section -->
+  <div class="search-section">
+    <div class="group">
+      <img src="image/search.png" alt="search-icon" class="search-icon">
+      <input type="text" placeholder="Search for schemes, subsidies, or programs..." />
+    </div>  
+    <select>
+      <option>Category</option>
+    </select>
+    <button>Search</button>
+  </div>
+
+
+
+<div class="grid-container">
+    <!-- 1. National Education Scholarship Program -->
+
+  <div class="scheme-card">
+  <a href="sch.html" style="text-decoration: none;">
+  <img src="image/National Education Scholarship Program-10.png" alt="Education Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Education</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">National Education Scholarship Program</div>
+    <div class="card-desc">
+      Financial support for students from disadvantaged backgrounds to pursue higher education...
+    </div>
+    <div class="eligibility">
+      Eligibility: Income below ₹3,00,000
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+  </a>
+</div>
+
+
+<!-- 2. Affordable Housing Initiative -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-9.png" alt="Housing Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Housing</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Affordable Housing Initiative</div>
+    <div class="card-desc">
+      Subsidized housing for low and middle-income families to promote quality living...
+    </div>
+    <div class="eligibility">
+      Eligibility: Income below ₹5,00,000
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Universal Health Coverage Scheme -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-11.png" alt="Healthcare Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Health Care</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Universal Health Coverage Scheme</div>
+    <div class="card-desc">
+      Comprehensive insurance for essential medical treatments and preventive care...
+    </div>
+    <div class="eligibility">
+      Eligibility: All citizens
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 4. Rural Employment Guarantee Program -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-12.png" alt="Employment Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Employment</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Rural Employment Guarantee Program</div>
+    <div class="card-desc">
+      Ensure livelihood security by providing 100 days of wage employment...
+    </div>
+    <div class="eligibility">
+      Eligibility: Adult rural members
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 5. Sustainable Agriculture Development Fund -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-13.png" alt="Agriculture Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Agriculture</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Sustainable Agriculture Development Fund</div>
+    <div class="card-desc">
+      Promotes eco-friendly farming practices and innovation in rural areas...
+    </div>
+    <div class="eligibility">
+      Eligibility: Small and marginal farmers
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 6. Solar Energy Adoption Program -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-14.png" alt="Energy Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Energy</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Solar Energy Adoption Program</div>
+    <div class="card-desc">
+      Incentives for residential and commercial users adopting solar energy systems...
+    </div>
+    <div class="eligibility">
+      Eligibility: All commercial & residential users
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 7. Education Scholarship (Repeat) -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-17.png" alt="Education Scholarship" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Education</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">National Education Scholarship Program</div>
+    <div class="card-desc">
+      Financial support for students from disadvantaged backgrounds to pursue higher education...
+    </div>
+    <div class="eligibility">
+      Eligibility: Income below ₹3,00,000
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 8. Business Assistance Program -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-2.png" alt="Business Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Business</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Business Assistance Program</div>
+    <div class="card-desc">
+      Interest-free loans and training for young entrepreneurs and small businesses...
+    </div>
+    <div class="eligibility">
+      Eligibility: All citizens
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+<!-- 9. Employment Connect Scheme -->
+<div class="scheme-card">
+  <img src="image/National Education Scholarship Program-1.png" alt="Employment Scheme" />
+  <div class="card-content">
+    <div class="tags">
+      <span class="tag-category">Employment</span>
+      <span class="tag-status">Active</span>
+      <span class="last-updated">Last updated: May 17, 2025</span>
+    </div>
+    <div class="card-title">Employment Connect Scheme</div>
+    <div class="card-desc">
+      Placement services and upskilling programs for youth in semi-urban and rural areas...
+    </div>
+    <div class="eligibility">
+      Eligibility: Youth (18–35 years)
+      <a class="view-link" href="#">View details ›</a>
+    </div>
+  </div>
+</div>
+
+
+    
+
+  </div>
+
+  <div class="pagination" style="margin-bottom: 20px;">
+    <button class="active">1</button>
+    <button>2</button>
+    <button>3</button>
+    <button>4</button>
+    <button>…</button>
+    <button>10</button>
+  </div>
+<!-- Footer -->
+ <footer>
+  <div class="footer-container">
+    <!-- Gov Schemes Portal -->
+    <a href="index.html" style="text-decoration: none;"><div class="footer-column">
+      <h4>🏛️ Gov Schemes Portal</h4>
+      <p style="text-decoration: none; color:#969191">Your one-stop platform for government welfare schemes and subsidies.</p>
+      <div class="social-icons">
+        <a href="https://facebook.com" target="_blank" aria-label="Facebook" rel="noopener noreferrer">🔵</a>
+        <a href="https://twitter.com" target="_blank" aria-label="Twitter" rel="noopener noreferrer">🐦</a>
+        <a href="https://youtube.com" target="_blank" aria-label="YouTube" rel="noopener noreferrer">▶️</a>
+        <a href="https://instagram.com" target="_blank" aria-label="Instagram" rel="noopener noreferrer">📸</a>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <a href="index.html"><div class="footer-column">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">All Schemes</a></li>
+        <li><a href="#">Eligibility Checker</a></li>
+        <li><a href="#">Application Status</a></li>
+        <li><a href="#">News & Updates</a></li>
+      </ul>
+    </div>
+    </a>
+
+    <!-- Resources -->
+    <a href="index.html"><div class="footer-column">
+      <h4>Resources</h4>
+      <ul class="resources-links">
+        <li><a href="#">Help & FAQs</a></li>
+        <li><a href="#">Document Guidelines</a></li>
+        <li><a href="#">Application Process</a></li>
+        <li><a href="#">Terms & Conditions</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+    </a>
+
+    <!-- Contact Us -->
+    <a href="contact.html"><div class="footer-column">
+      <h4>Contact Us</h4>
+      <ul class="contact-links">
+        <li>📍 <a href="https://goo.gl/maps/example" target="_blank" rel="noopener noreferrer">123 Government Avenue, Capital City</a></li>
+        <li>📞 <a href="tel:18001234567">1800-123-4567</a></li>
+        <li>✉️ <a href="mailto:help@govschemes.gov">help@govschemes.gov</a></li>
+        <li>⏰ Mon-Fri: 9:00 AM - 5:00 PM</li>
+      </ul>
+    </div>
+    </a>
+  </div>
+
+
+    <div class="footer-bottom">
+    
+    <p>© 2025 Government Schemes Portal. All rights reserved.</p>
+    <p>This is an official government website. All information provided is subject to verification.</p>
+    <p>
+      <a href="#">Accessibility</a> |
+      <a href="#">Terms of Use</a> |
+      <a href="#">Privacy Policy</a> |
+      <a href="#">Cookie Policy</a> |
+      <a href="#">Sitemap</a>
+    </p>
+    </a>
+  </div>
+  
+</footer>
+</body>
+</html>
